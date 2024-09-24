@@ -1,0 +1,31 @@
+name: 'Graphql Schema Check'
+description: 'Set up the environment for a specific schema'
+
+inputs:
+  graph:
+    description: 'The graph to set up'
+    required: true
+  schema_path:
+    description: 'The schema path to set up'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: "lts/*"
+
+    - name: Install Cosmo CLI
+      shell: bash
+      run: |
+        npm install -g wgc@latest
+
+    - name: Run subgraph check
+      shell: bash
+      run: |
+        wgc subgraph check ${{ inputs.graph }} --schema ${{ inputs.schema_path }}
