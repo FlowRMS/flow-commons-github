@@ -1,6 +1,17 @@
 name: 'SonarQube Publish'
 description: 'Publish build to sonarqube'
 
+inputs:
+  sonar-token:
+    description: 'SonarQube authentication token'
+    required: true
+  sonar-host-url:
+    description: 'SonarQube host URL'
+    required: true
+  github-token:
+    description: 'GitHub authentication token'
+    required: true
+
 runs:
   using: 'composite'
   permissions:
@@ -8,28 +19,33 @@ runs:
     packages: write
   steps:
     - uses: actions/checkout@v4
+
     - uses: actions/setup-java@v4
       with:
         java-version: '21'
         distribution: 'temurin'
+
     - name: Cache SonarQube packages
       uses: actions/cache@v1
       with:
         path: ~/.sonar/cache
         key: ${{ runner.os }}-sonar
         restore-keys: ${{ runner.os }}-sonar
+
     - name: Cache Maven packages
       uses: actions/cache@v1
       with:
         path: ~/.m2
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
+
     - name: Build and analyze
       env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        SONAR_TOKEN: ${{ inputs.sonar-token }}
+        SONAR_HOST_URL: ${{ inputs.sonar-host-url }}
       run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+
     - name: Publish package
       run: mvn --batch-mode deploy
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ inputs.github-token }}
