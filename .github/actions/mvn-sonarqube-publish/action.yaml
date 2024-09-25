@@ -14,9 +14,6 @@ inputs:
 
 runs:
   using: 'composite'
-  permissions:
-    contents: read
-    packages: write
   steps:
     - uses: actions/checkout@v4
 
@@ -26,26 +23,28 @@ runs:
         distribution: 'temurin'
 
     - name: Cache SonarQube packages
-      uses: actions/cache@v1
+      uses: actions/cache@v3
       with:
         path: ~/.sonar/cache
         key: ${{ runner.os }}-sonar
         restore-keys: ${{ runner.os }}-sonar
 
     - name: Cache Maven packages
-      uses: actions/cache@v1
+      uses: actions/cache@v3
       with:
         path: ~/.m2
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
 
     - name: Build and analyze
+      shell: bash
       env:
         SONAR_TOKEN: ${{ inputs.sonar-token }}
         SONAR_HOST_URL: ${{ inputs.sonar-host-url }}
       run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
 
     - name: Publish package
+      shell: bash
       run: mvn --batch-mode deploy
       env:
         GITHUB_TOKEN: ${{ inputs.github-token }}
