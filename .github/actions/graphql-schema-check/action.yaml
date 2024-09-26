@@ -9,6 +9,7 @@ inputs:
     description: 'The schema path to set up'
     required: true
 
+
 runs:
   using: 'composite'
   steps:
@@ -29,3 +30,5 @@ runs:
       shell: bash
       run: |
         wgc subgraph check ${{ inputs.graph }} --schema ${{ inputs.schema_path }}
+      env:
+        COSMO_API_KEY: ${{ inputs.cosmo-api-key }}
