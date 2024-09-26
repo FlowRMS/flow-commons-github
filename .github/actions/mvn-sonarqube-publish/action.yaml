@@ -26,6 +26,7 @@ runs:
         restore-keys: ${{ runner.os }}-m2
 
     - name: Copy Maven settings.xml
+      shell: bash
       run: |
         mkdir -p ~/.m2
         cp ./settings.xml ~/.m2/settings.xml
