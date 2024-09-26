@@ -8,6 +8,9 @@ inputs:
   schema_path:
     description: 'The schema path to set up'
     required: true
+  cosmo-api-key:
+    description: 'Env Cosmo API KEY'
+    required: true
 
 
 runs:
@@ -25,13 +28,6 @@ runs:
       shell: bash
       run: |
         npm install -g wgc@latest
-
-    - name: Auth CI CD
-      shell: bash
-      run: |
-        wgc auth login
-      env:
-        COSMO_API_KEY: ${{ inputs.cosmo-api-key }}
 
     - name: Run subgraph check
       shell: bash
