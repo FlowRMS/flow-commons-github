@@ -28,7 +28,6 @@ runs:
     - name: Copy Maven settings.xml
       shell: bash
       run: |
-        mkdir -p ~/.m2
         echo ${{ env.POM_SETTINGS_XML }}
         echo ${{ env.POM_SETTINGS_XML }} >> ~/.m2/settings.xml
         sed -i "s/\${env.GITHUB_TOKEN}/${{ env.GITHUB_TOKEN }}/g" ~/.m2/settings.xml
