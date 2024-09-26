@@ -26,6 +26,13 @@ runs:
       run: |
         npm install -g wgc@latest
 
+    - name: Auth CI CD
+      shell: bash
+      run: |
+        wgc auth login
+      env:
+        COSMO_API_KEY: ${{ inputs.cosmo-api-key }}
+
     - name: Run subgraph check
       shell: bash
       run: |
