@@ -8,10 +8,6 @@ inputs:
   schema_path:
     description: 'The schema path to set up'
     required: true
-  cosmo-api-key:
-    description: 'Env Cosmo API KEY'
-    required: true
-
 
 runs:
   using: 'composite'
@@ -34,4 +30,4 @@ runs:
       run: |
         wgc subgraph check ${{ inputs.graph }} --schema ${{ inputs.schema_path }}
       env:
-        COSMO_API_KEY: ${{ inputs.cosmo-api-key }}
+        COSMO_API_KEY: ${{ env.COSMO_API_KEY }}
