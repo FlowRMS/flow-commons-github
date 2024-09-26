@@ -29,7 +29,7 @@ runs:
       shell: bash
       run: |
         mkdir -p ~/.m2
-        cp ./settings.xml ~/.m2/settings.xml
+        echo ${{ secrets.POM_SETTINGS_XML }} >> ~/.m2/settings.xml
         sed -i "s/\${env.GITHUB_TOKEN}/${{ env.GITHUB_TOKEN }}/g" ~/.m2/settings.xml
 
     - name: Build and analyze
