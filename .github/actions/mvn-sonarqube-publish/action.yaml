@@ -28,8 +28,8 @@ runs:
     - name: Copy Maven settings.xml
       shell: bash
       env:
-        POM_SETTINGS_XML: ${{ POM_SETTINGS_XML }}
-        GITHUB_TOKEN: ${{ GITHUB_TOKEN }}
+        POM_SETTINGS_XML: ${{ env.POM_SETTINGS_XML }}
+        GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
       run: |
         cat ~/.m2/settings.xml
         echo ${{ env.POM_SETTINGS_XML }}
