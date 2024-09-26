@@ -1,17 +1,6 @@
 name: 'SonarQube Publish'
 description: 'Publish build to sonarqube'
 
-inputs:
-  sonar-token:
-    description: 'SonarQube authentication token'
-    required: true
-  sonar-host-url:
-    description: 'SonarQube host URL'
-    required: true
-  github-token:
-    description: 'GitHub authentication token'
-    required: true
-
 runs:
   using: 'composite'
   steps:
@@ -36,15 +25,21 @@ runs:
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
 
+    - name: Copy Maven settings.xml
+      run: |
+        mkdir -p ~/.m2
+        cp ./settings.xml ~/.m2/settings.xml
+        sed -i "s/\${env.GITHUB_TOKEN}/${{ env.GITHUB_TOKEN }}/g" ~/.m2/settings.xml
+
     - name: Build and analyze
       shell: bash
       env:
-        SONAR_TOKEN: ${{ inputs.sonar-token }}
-        SONAR_HOST_URL: ${{ inputs.sonar-host-url }}
+        SONAR_TOKEN: ${{ env.SONAR_TOKEN }}
+        SONAR_HOST_URL: ${{ env.SONAR_HOST_URL }}
       run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
 
     - name: Publish package
       shell: bash
       run: mvn --batch-mode deploy
       env:
-        GITHUB_TOKEN: ${{ inputs.github-token }}
+        GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
