@@ -8,6 +8,8 @@ inputs:
   schema_path:
     description: 'The schema path to set up'
     required: true
+  readme_path:
+    description: 'The readme file path'
 
 runs:
   using: 'composite'
@@ -29,5 +31,12 @@ runs:
       shell: bash
       run: |
         wgc subgraph check ${{ inputs.graph }} --schema ${{ inputs.schema_path }}
+      env:
+        COSMO_API_KEY: ${{ env.COSMO_API_KEY }}
+
+    - name: Run subgraph readme update
+      shell: bash
+      run: |
+        wgc subgraph update ${{ inputs.graph }} --readme ${{ inputs.readme_path }}
       env:
         COSMO_API_KEY: ${{ env.COSMO_API_KEY }}
