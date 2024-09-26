@@ -28,10 +28,11 @@ runs:
     - name: Copy Maven settings.xml
       shell: bash
       run: |
+        cat ~/.m2/settings.xml
         echo ${{ env.POM_SETTINGS_XML }}
         echo ${{ env.POM_SETTINGS_XML }} >> ~/.m2/settings.xml
         sed -i "s/\${env.GITHUB_TOKEN}/${{ env.GITHUB_TOKEN }}/g" ~/.m2/settings.xml
-        echo ~/.m2/settings.xml
+        cat ~/.m2/settings.xml 
 
     - name: Build and analyze
       shell: bash
