@@ -25,16 +25,6 @@ runs:
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
 
-    - name: Copy Maven settings.xml
-      shell: bash
-      env:
-        POM_SETTINGS_XML: ${{ env.POM_SETTINGS_XML }}
-        GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
-      run: |
-        echo ${{ env.POM_SETTINGS_XML }} > ~/.m2/settings.xml
-        sed -i "s/\${env.GITHUB_TOKEN}/${{ env.GITHUB_TOKEN }}/g" ~/.m2/settings.xml
-        cat ~/.m2/settings.xml 
-
     - name: Build and analyze
       shell: bash
       env:
