@@ -1,4 +1,4 @@
-name: 'Graphql Schema Check'
+name: 'Graphql Schema Check and Publish'
 description: 'Set up the environment for a specific schema'
 
 inputs:
@@ -6,7 +6,7 @@ inputs:
     description: 'The graph to set up'
     required: true
   schema_path:
-    description: 'The schema path to set up'
+    description: 'The schema path to set up and publish'
     required: true
   readme_path:
     description: 'The readme file path'
@@ -38,5 +38,12 @@ runs:
       shell: bash
       run: |
         wgc subgraph update ${{ inputs.graph }} --readme ${{ inputs.readme_path }}
+      env:
+        COSMO_API_KEY: ${{ env.COSMO_API_KEY }}
+
+    - name: Run subgraph publish
+      shell: bash
+      run: |
+        wgc subgraph publish ${{ inputs.graph }} --namespace default --schema ${{ inputs.schema_path }}
       env:
         COSMO_API_KEY: ${{ env.COSMO_API_KEY }}
