@@ -23,6 +23,9 @@ runs:
 
     - name: Cache Maven packages
       uses: actions/cache@v3
+      env:
+        MAVEN_USERNAME: ${{ env.MAVEN_USERNAME }}
+        MAVEN_CENTRAL_TOKEN: ${{ env.MAVEN_CENTRAL_TOKEN }}
       with:
         path: ~/.m2
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
@@ -33,6 +36,8 @@ runs:
       env:
         SONAR_TOKEN: ${{ env.SONAR_TOKEN }}
         SONAR_HOST_URL: ${{ env.SONAR_HOST_URL }}
+        MAVEN_USERNAME: ${{ env.MAVEN_USERNAME }}
+        MAVEN_CENTRAL_TOKEN: ${{ env.MAVEN_CENTRAL_TOKEN }}
       run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
 
     - name: Publish package
@@ -40,3 +45,5 @@ runs:
       run: mvn --batch-mode deploy
       env:
         GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
+        MAVEN_USERNAME: ${{ env.MAVEN_USERNAME }}
+        MAVEN_CENTRAL_TOKEN: ${{ env.MAVEN_CENTRAL_TOKEN }}
