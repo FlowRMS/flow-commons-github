@@ -19,7 +19,6 @@ runs:
         cache: maven
 
     - uses: s4u/maven-settings-action@v2.3.0
-      if: ${{ inputs.default-xml-setting == 'false' }}
       with:
         servers: |
           [{
