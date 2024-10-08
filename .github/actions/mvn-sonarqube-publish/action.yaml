@@ -5,7 +5,7 @@ inputs:
   default-xml-setting:
     description: 'Conditional to make not execute xml settings change'
     required: true
-    default: false
+    default: 'false'
 
 runs:
   using: 'composite'
