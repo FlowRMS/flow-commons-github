@@ -1,6 +1,12 @@
 name: 'SonarQube Publish'
 description: 'Publish build to sonarqube'
 
+inputs:
+  default-xml-setting:
+    description: 'Conditional to make not execute xml settings change'
+    required: true
+    default: false
+
 runs:
   using: 'composite'
   steps:
@@ -13,6 +19,7 @@ runs:
         cache: maven
 
     - uses: s4u/maven-settings-action@v2.3.0
+      if: ${{ inputs.default-xml-setting == 'false' }}
       with:
         servers: |
           [{
