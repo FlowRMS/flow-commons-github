@@ -1,0 +1,42 @@
+name: 'Docker Build and Push'
+description: 'Build and push Docker image to a container registry with environment support (development, staging, production)'
+
+inputs:
+  image_name:
+    description: 'The Docker image name'
+    required: true
+  registry:
+    description: 'Container registry (e.g., ghcr.io)'
+    required: true
+  username:
+    description: 'Registry username'
+    required: true
+  password:
+    description: 'Registry password or token'
+    required: true
+  environment:
+    description: 'Deployment environment (e.g., production, staging, development)'
+    required: false
+    default: 'development'
+
+outputs:
+  image_tag:
+    description: 'Generated image tag'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Execute Docker Build and Push
+      run: ./build.sh
+      shell: bash
+      env:
+        IMAGE_NAME: ${{ inputs.image_name }}
+        REGISTRY: ${{ inputs.registry }}
+        USERNAME: ${{ inputs.username }}
+        PASSWORD: ${{ inputs.password }}
+        ENVIRONMENT: ${{ inputs.environment }}
+        GITHUB_SHA: ${{ github.sha }}
+
+branding:
+  icon: 'docker'
+  color: 'blue'
