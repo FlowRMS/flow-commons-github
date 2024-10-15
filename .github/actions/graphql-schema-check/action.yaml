@@ -21,18 +21,25 @@ runs:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    - name: Initialize Schema
+      shell: bash
+      run: |
+        touch output.graphqls
+
+        # Access the schema from the code repo
+        cat ${{ github.workspace }}/${{ inputs.schema_path }} >> output.graphqls
+      
+
     - name: Apply Action Template to Code Schema
       if: inputs.schema_template
       shell: bash
       run: |
-        touch output.graphqls
-        
         # Access the template from the action repo
         cat ${{ github.action_path }}/template/template.graphqls >> output.graphqls
-        
-        # Access the schema from the code repo
-        cat ${{ github.workspace }}/${{ inputs.schema_path }} >> output.graphqls
-        
+
+    - name: Output Schema
+      shell: bash
+      run: |  
         cat output.graphqls
 
     - name: Setup Node.js
