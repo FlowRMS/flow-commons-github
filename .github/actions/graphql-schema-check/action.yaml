@@ -27,7 +27,9 @@ runs:
         cat ${{ github.action_path }}/template/template.graphqls >> output.graphqls
         
         # Access the schema from the code repo
-        cat ${{ github.workspace }}/${{ inputs.schema_path }} >> output.graphqls 
+        cat ${{ github.workspace }}/${{ inputs.schema_path }} >> output.graphqls
+        
+        cat output.graphqls
 
     - name: Setup Node.js
       uses: actions/setup-node@v3
