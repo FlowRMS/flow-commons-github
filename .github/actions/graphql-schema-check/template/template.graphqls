@@ -81,3 +81,4 @@ interface GenericFilter @key(fields: "page perPage totalRows") {
     perPage: Int!
     totalRows: Int!
 }
+
