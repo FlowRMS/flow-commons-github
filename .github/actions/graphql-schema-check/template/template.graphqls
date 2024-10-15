@@ -77,7 +77,7 @@ input SortByInput {
 }
 
 type GenericFilter {
-    page: Int!
-    perPage: Int!
-    totalRows: Int!
+    page: Int! @shareable
+    perPage: Int! @shareable
+    totalRows: Int! @shareable
 }
