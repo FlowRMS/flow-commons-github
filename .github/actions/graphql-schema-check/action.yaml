@@ -25,6 +25,11 @@ runs:
         cat ${{ inputs.schema_path }} >> output.graphqls
       working-directory: ${{ github.action_path }}  # Set to action's path
 
+    - name: Add Output Schema
+      shell: bash
+      run: |
+        cat ${{ inputs.schema_path }} >> output.graphqls
+
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
