@@ -14,20 +14,20 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Initialize Output Schema
-      shell: bash
-      run: |
-        touch output.graphqls
-        cat ./template/template.graphqls >> output.graphqls
-        cat ${{ inputs.schema_path }} >> output.graphqls
 
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Add Output Schema
+    - name: Apply Action Template to Code Schema
       shell: bash
       run: |
-        cat ${{ inputs.schema_path }} >> output.graphqls
+        touch output.graphqls
+        
+        # Access the template from the action repo
+        cat ${{ github.action_path }}/template/template.graphqls >> output.graphqls
+        
+        # Access the schema from the code repo
+        cat ${{ github.workspace }}/${{ inputs.schema_path }} >> output.graphqls 
 
     - name: Setup Node.js
       uses: actions/setup-node@v3
