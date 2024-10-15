@@ -14,16 +14,15 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
     - name: Initialize Output Schema
       shell: bash
       run: |
         touch output.graphqls
         cat ./template/template.graphqls >> output.graphqls
         cat ${{ inputs.schema_path }} >> output.graphqls
-      working-directory: ${{ github.action_path }}  # Set to action's path
+
+    - name: Checkout code
+      uses: actions/checkout@v4
 
     - name: Add Output Schema
       shell: bash
