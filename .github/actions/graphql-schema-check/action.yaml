@@ -11,7 +11,7 @@ inputs:
   readme_path:
     description: 'The readme file path'
   schema_template:
-    description: 'Boolean flag to determine to use template schema'\
+    description: 'Boolean flag to determine to use template schema'
     default: 'false'
 
 runs:
