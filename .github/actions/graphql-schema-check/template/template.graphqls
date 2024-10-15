@@ -76,8 +76,8 @@ input SortByInput {
     order: OrderDirectionEnum!
 }
 
-type GenericFilter {
-    page: Int! @shareable
-    perPage: Int! @shareable
-    totalRows: Int! @shareable
+interface GenericFilter @key(fields: "page perPage totalRows") {
+    page: Int!
+    perPage: Int!
+    totalRows: Int!
 }
