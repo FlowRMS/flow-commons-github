@@ -75,10 +75,3 @@ input SortByInput {
     key: String!
     order: OrderDirectionEnum!
 }
-
-interface GenericFilter @key(fields: "page perPage totalRows") {
-    page: Int!
-    perPage: Int!
-    totalRows: Int!
-}
-
