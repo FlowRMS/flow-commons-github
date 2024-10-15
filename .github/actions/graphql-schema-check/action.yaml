@@ -12,7 +12,7 @@ inputs:
     description: 'The readme file path'
   schema_template:
     description: 'Boolean flag to determine to use template schema'\
-    default: 'true'
+    default: 'false'
 
 runs:
   using: 'composite'
@@ -31,7 +31,7 @@ runs:
       
 
     - name: Apply Action Template to Code Schema
-      if: inputs.schema_template
+      if: inputs.schema_template == 'true'
       shell: bash
       run: |
         # Access the template from the action repo
