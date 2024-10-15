@@ -10,6 +10,9 @@ inputs:
     required: true
   readme_path:
     description: 'The readme file path'
+  schema_template:
+    description: 'Boolean flag to determine to use template schema'\
+    default: 'true'
 
 runs:
   using: 'composite'
@@ -19,6 +22,7 @@ runs:
       uses: actions/checkout@v4
 
     - name: Apply Action Template to Code Schema
+      if: inputs.schema_template
       shell: bash
       run: |
         touch output.graphqls
