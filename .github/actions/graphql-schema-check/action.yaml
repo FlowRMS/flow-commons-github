@@ -21,8 +21,9 @@ runs:
       shell: bash
       run: |
         touch output.graphqls
-        cat .github/actions/graphql-schema-check/template/template.graphqls >> output.graphqls
-        cat ${{ inputs.graph }} >> output.graphqls 
+        cat ./template/template.graphqls >> output.graphqls
+        cat ${{ inputs.schema_path }} >> output.graphqls
+      working-directory: ${{ github.action_path }}  # Set to action's path
 
     - name: Setup Node.js
       uses: actions/setup-node@v3
