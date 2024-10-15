@@ -17,6 +17,13 @@ runs:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    - name: Initialize Output Schema
+      uses: bash
+      run: |
+        touch output.graphqls
+        cat ./template/template.graphqls >> output.graphqls
+        cat ${{ inputs.graph }} >> output.graphqls 
+
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
@@ -30,11 +37,12 @@ runs:
     - name: Run subgraph check
       shell: bash
       run: |
-        wgc subgraph check ${{ inputs.graph }} --schema ${{ inputs.schema_path }}
+        wgc subgraph check ${{ inputs.graph }} --schema output.graphqls
       env:
         COSMO_API_KEY: ${{ env.COSMO_API_KEY }}
 
     - name: Run subgraph readme update
+      if: inputs.readme_path
       shell: bash
       run: |
         wgc subgraph update ${{ inputs.graph }} --readme ${{ inputs.readme_path }}
@@ -44,6 +52,6 @@ runs:
     - name: Run subgraph publish
       shell: bash
       run: |
-        wgc subgraph publish ${{ inputs.graph }} --namespace default --schema ${{ inputs.schema_path }}
+        wgc subgraph publish ${{ inputs.graph }} --namespace default --schema output.graphqls
       env:
         COSMO_API_KEY: ${{ env.COSMO_API_KEY }}
