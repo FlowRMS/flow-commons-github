@@ -21,7 +21,7 @@ runs:
       shell: bash
       run: |
         touch output.graphqls
-        cat ./template/template.graphqls >> output.graphqls
+        cat .github/actions/graphql-schema-check/template/template.graphqls >> output.graphqls
         cat ${{ inputs.graph }} >> output.graphqls 
 
     - name: Setup Node.js
