@@ -18,7 +18,7 @@ runs:
       uses: actions/checkout@v4
 
     - name: Initialize Output Schema
-      uses: bash
+      shell: bash
       run: |
         touch output.graphqls
         cat ./template/template.graphqls >> output.graphqls
