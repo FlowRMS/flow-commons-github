@@ -1,6 +1,7 @@
 name: 'Set Environment and Image Tag'
 description: 'Set environment and image tag based on branch'
 
+
 runs:
   using: 'composite'
   steps:
@@ -20,6 +21,7 @@ runs:
         echo "IMAGE_TAG=ghcr.io/flowrms/flow-backend-${{ env.ENVIRONMENT }}:${{ github.sha }}" >> $GITHUB_ENV
 
     - name: Output variables
+      shell: bash
       run: |
-      echo "ENVIRONMENT: ${{ env.ENVIRONMENT }}"
-      echo "IMAGE_TAG: ${{ env.IMAGE_TAG }}"
+        echo "ENVIRONMENT: ${{ env.ENVIRONMENT }}"
+        echo "IMAGE_TAG: ${{ env.IMAGE_TAG }}"
