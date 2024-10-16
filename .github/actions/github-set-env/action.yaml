@@ -7,7 +7,7 @@ runs:
     - uses: actions/checkout@v4
 
     - name: Set ENVIRONMENT and IMAGE_TAG
-      id: set_tag
+      shelL: bash
       run: |
         if [ "${{ github.ref }}" == 'refs/heads/main' ]; then
           ENVIRONMENT=production
