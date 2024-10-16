@@ -7,7 +7,7 @@ runs:
   steps:
     - uses: actions/checkout@v4
 
-    - name: Set ENVIRONMENT and IMAGE_TAG
+    - name: Set ENVIRONMENT
       shell: bash
       run: |
         if [ "${{ github.ref }}" == 'refs/heads/main' ]; then
@@ -18,6 +18,9 @@ runs:
           echo "ENVIRONMENT=development" >> $GITHUB_ENV
         fi
         
+    - name: Set IMAGE_TAG
+      shell: bash
+      run: |
         echo "IMAGE_TAG=ghcr.io/flowrms/flow-backend-${{ env.ENVIRONMENT }}:${{ github.sha }}" >> $GITHUB_ENV
 
     - name: Output variables
