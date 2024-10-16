@@ -39,4 +39,4 @@ runs:
 
 branding:
   icon: 'docker'
-  color: 'blue'
+  color: 'cyan'
