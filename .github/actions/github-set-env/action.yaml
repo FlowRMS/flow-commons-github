@@ -10,15 +10,14 @@ runs:
       shell: bash
       run: |
         if [ "${{ github.ref }}" == 'refs/heads/main' ]; then
-          ENVIRONMENT=production
+          echo "ENVIRONMENT=production" >> $GITHUB_ENV
         elif [[ "${{ github.ref }}" == 'refs/heads/staging' ]]; then
-          ENVIRONMENT=staging
+          echo "ENVIRONMENT=staging" >> $GITHUB_ENV
         else
-          ENVIRONMENT=development
+          echo "ENVIRONMENT=development" >> $GITHUB_ENV
         fi
         
-        echo "ENVIRONMENT=${ENVIRONMENT}" >> $GITHUB_ENV
-        echo "IMAGE_TAG=ghcr.io/flowrms/flow-backend-${ENVIRONMENT}:${{ github.sha }}" >> $GITHUB_OUTPUT
+        echo "IMAGE_TAG=ghcr.io/flowrms/flow-backend-${{ ENVIRONMENT }}:${{ github.sha }}" >> $GITHUB_ENV
 
     - name: Output variables
       run: |
