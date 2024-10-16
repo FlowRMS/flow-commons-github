@@ -1,0 +1,26 @@
+name: 'Set Environment and Image Tag'
+description: 'Set environment and image tag based on branch'
+
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/checkout@v4
+
+    - name: Set ENVIRONMENT and IMAGE_TAG
+      id: set_tag
+      run: |
+        if [ "${{ github.ref }}" == 'refs/heads/main' ]; then
+          ENVIRONMENT=production
+        elif [[ "${{ github.ref }}" == 'refs/heads/staging' ]]; then
+          ENVIRONMENT=staging
+        else
+          ENVIRONMENT=development
+        fi
+        
+        echo "ENVIRONMENT=${ENVIRONMENT}" >> $GITHUB_ENV
+        echo "IMAGE_TAG=ghcr.io/flowrms/flow-backend-${ENVIRONMENT}:${{ github.sha }}" >> $GITHUB_OUTPUT
+
+    - name: Output variables
+      run: |
+      echo "ENVIRONMENT: ${{ env.ENVIRONMENT }}"
+      echo "IMAGE_TAG: ${{ env.IMAGE_TAG }}"
