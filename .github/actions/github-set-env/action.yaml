@@ -17,7 +17,7 @@ runs:
           echo "ENVIRONMENT=development" >> $GITHUB_ENV
         fi
         
-        echo "IMAGE_TAG=ghcr.io/flowrms/flow-backend-${{ ENVIRONMENT }}:${{ github.sha }}" >> $GITHUB_ENV
+        echo "IMAGE_TAG=ghcr.io/flowrms/flow-backend-${{ env.ENVIRONMENT }}:${{ github.sha }}" >> $GITHUB_ENV
 
     - name: Output variables
       run: |
