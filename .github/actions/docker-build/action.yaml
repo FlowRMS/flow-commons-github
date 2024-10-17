@@ -1,41 +1,41 @@
-name: 'Docker Build and Push'
-description: 'Build and push Docker image to a container registry with environment support (development, staging, production)'
-
-inputs:
-  image_name:
-    description: 'The Docker image name'
-    required: true
-  registry:
-    description: 'Container registry (e.g., ghcr.io)'
-    required: true
-  username:
-    description: 'Registry username'
-    required: true
-  password:
-    description: 'Registry password or token'
-    required: true
-  environment:
-    description: 'Deployment environment (e.g., production, staging, development)'
-    required: false
-    default: 'development'
-
-outputs:
-  image_tag:
-    description: 'Generated image tag'
+name: 'Docker Build'
+description: 'Build docker image and push container registry with environment support (development, staging, production)'
 
 runs:
   using: 'composite'
   steps:
-    - name: Execute Docker Build and Push
-      run: ./build.sh
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Log in to GitHub Container Registry
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ env.WORKFLOW_TOKEN }}
+
+    - name: Set Environment
+      uses: flowrms/flow-commons-github/.github/actions/github-set-env@main
+
+    - name: Override Maven Settings
       shell: bash
-      env:
-        IMAGE_NAME: ${{ inputs.image_name }}
-        REGISTRY: ${{ inputs.registry }}
-        USERNAME: ${{ inputs.username }}
-        PASSWORD: ${{ inputs.password }}
-        ENVIRONMENT: ${{ inputs.environment }}
-        GITHUB_SHA: ${{ github.sha }}
+      run: |
+        sed -i 's/$POM_XML_SETTINGS_PASSWORD/'"${{ env.MAVEN_TOKEN }}"'/' .m2/settings.xml
+        sed -i 's/$POM_XML_SETTINGS_USERNAME/'"${{ env.MAVEN_USERNAME }}"'/' .m2/settings.xml
+        cat .m2/settings.xml
+
+    - name: Build and push
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        file: ./Dockerfile
+        push: true
+        tags: ${{ env.IMAGE_TAG }}
+        build-args: |
+          ENVIRONMENT=${{ env.ENVIRONMENT }}
 
 branding:
   icon: 'docker'
