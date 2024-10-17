@@ -8,6 +8,7 @@ runs:
       uses: actions/checkout@v4
 
     - name: Install doctl
+      shell: bash
       run: |
         curl -sL https://github.com/digitalocean/doctl/releases/download/v1.92.0/doctl-1.92.0-linux-amd64.tar.gz | tar xzv
         sudo mv doctl /usr/local/bin/
@@ -21,16 +22,19 @@ runs:
         KUBE_CLUSTER_NAME_DEVELOPMENT: ${{ env.KUBE_CLUSTER_NAME_DEVELOPMENT }}
 
     - name: Configure Kubernetes cluster
+      shell: bash
       run: |
         doctl kubernetes cluster kubeconfig save ${{ env.KUBE_CLUSTER_NAME }} --expiry-seconds 300
 
     - name: Install kubectl
+      shell: bash
       run: |
         curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
         chmod +x ./kubectl
         sudo mv ./kubectl /usr/local/bin/kubectl
 
     - name: Deploy application
+      shell: bash
       run: |
         echo "Deploying application using image $IMAGE_TAG"
         envsubst < .k8s/deployment.yaml > deployment.prod.yaml
