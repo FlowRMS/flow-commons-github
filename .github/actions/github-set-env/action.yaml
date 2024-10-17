@@ -23,7 +23,7 @@ runs:
     - name: Set IMAGE_TAG
       shell: bash
       run: |
-        echo "IMAGE_TAG=ghcr.io/flowrms/${{ github.repository }}-${{ env.ENVIRONMENT }}:${{ github.sha }}" >> $GITHUB_ENV
+        echo "IMAGE_TAG=ghcr.io/${GITHUB_REPOSITORY@L}-${{ env.ENVIRONMENT }}:${{ github.sha }}" >> $GITHUB_ENV
 
     - name: Output variables
       shell: bash
