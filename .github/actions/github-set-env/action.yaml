@@ -1,6 +1,5 @@
-name: 'Set Environment and Image Tag'
-description: 'Set environment and image tag based on branch'
-
+name: 'Set Environment and other requires variables'
+description: 'Set environment and other requires variables based on branch'
 
 runs:
   using: 'composite'
@@ -12,10 +11,13 @@ runs:
       run: |
         if [ "${{ github.ref }}" == 'refs/heads/main' ]; then
           echo "ENVIRONMENT=production" >> $GITHUB_ENV
+          echo "KUBE_CLUSTER_NAME=${{ secrets.KUBE_CLUSTER_NAME_PRODUCTION }}" >> $GITHUB_ENV
         elif [[ "${{ github.ref }}" == 'refs/heads/staging' ]]; then
           echo "ENVIRONMENT=staging" >> $GITHUB_ENV
+          echo "KUBE_CLUSTER_NAME=${{ secrets.KUBE_CLUSTER_NAME_STAGING }}" >> $GITHUB_ENV
         else
           echo "ENVIRONMENT=development" >> $GITHUB_ENV
+          echo "KUBE_CLUSTER_NAME=${{ secrets.KUBE_CLUSTER_NAME_DEVELOPMENT }}" >> $GITHUB_ENV
         fi
         
     - name: Set IMAGE_TAG
@@ -28,3 +30,4 @@ runs:
       run: |
         echo "ENVIRONMENT: ${{ env.ENVIRONMENT }}"
         echo "IMAGE_TAG: ${{ env.IMAGE_TAG }}"
+        echo "KUBE_CLUSTER_NAME: ${{ env.KUBE_CLUSTER_NAME }}"
