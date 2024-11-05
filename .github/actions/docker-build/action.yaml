@@ -21,6 +21,7 @@ runs:
       uses: flowrms/flow-commons-github/.github/actions/github-set-env@main
 
     - name: Override Maven Settings
+      if: ${{ env.MAVEN_TOKEN && env.MAVEN_USERNAME }}
       shell: bash
       run: |
         sed -i 's/$POM_XML_SETTINGS_PASSWORD/'"${{ env.MAVEN_TOKEN }}"'/' .m2/settings.xml
