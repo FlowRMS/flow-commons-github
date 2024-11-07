@@ -1,6 +1,12 @@
 name: 'K8S Push'
 description: 'Push Docker image to a container registry with environment support (development, staging, production)'
 
+inputs:
+  image-tag:
+    description: 'Docker image tag in Digital Container Ocean Registry'
+    required: false
+    default: ${{ env.IMAGE_TAG }}
+
 runs:
   using: 'composite'
   steps:
@@ -36,7 +42,7 @@ runs:
     - name: Deploy application
       shell: bash
       run: |
-        echo "Deploying application using image $IMAGE_TAG"
+        echo "Deploying application using image ${{ inputs.image-tag }}"
         envsubst < .k8s/deployment.yaml > deployment.prod.yaml
         kubectl apply -f deployment.prod.yaml
 
