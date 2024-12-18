@@ -25,6 +25,7 @@ runs:
         KUBE_CLUSTER_NAME_PRODUCTION: ${{ env.KUBE_CLUSTER_NAME_PRODUCTION }}
         KUBE_CLUSTER_NAME_STAGING: ${{ env.KUBE_CLUSTER_NAME_STAGING }}
         KUBE_CLUSTER_NAME_DEVELOPMENT: ${{ env.KUBE_CLUSTER_NAME_DEVELOPMENT }}
+        KUBE_CLUSTER_NAME_BETA: ${{ env.KUBE_CLUSTER_NAME_BETA }}
 
     - name: Configure Kubernetes cluster
       shell: bash
