@@ -18,9 +18,12 @@ runs:
         elif [[ "${{ github.ref }}" == 'refs/heads/development' ]]; then
           echo "ENVIRONMENT=development" >> $GITHUB_ENV
           echo "KUBE_CLUSTER_NAME=${{ env.KUBE_CLUSTER_NAME_DEVELOPMENT }}" >> $GITHUB_ENV
-        else
+        elif [[ "${{ github.ref }}" == 'refs/heads/beta' ]]; then
           echo "ENVIRONMENT=beta" >> $GITHUB_ENV
           echo "KUBE_CLUSTER_NAME=${{ env.KUBE_CLUSTER_NAME_BETA }}" >> $GITHUB_ENV
+        else
+          echo "ENVIRONMENT=development" >> $GITHUB_ENV
+          echo "KUBE_CLUSTER_NAME=${{ env.KUBE_CLUSTER_NAME_DEVELOPMENT }}" >> $GITHUB_ENV
         fi
         
     - name: Set IMAGE_TAG
