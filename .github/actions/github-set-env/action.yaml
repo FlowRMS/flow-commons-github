@@ -10,30 +10,30 @@ runs:
       shell: bash
       run: |
         if [ "${{ github.ref }}" == 'refs/heads/main' ]; then
-          echo "ENVIRONMENT=production" >> $GITHUB_ENV
+          echo "environment=production" >> $GITHUB_ENV
           echo "KUBE_CLUSTER_NAME=${{ env.KUBE_CLUSTER_NAME_PRODUCTION }}" >> $GITHUB_ENV
         elif [[ "${{ github.ref }}" == 'refs/heads/staging' ]]; then
-          echo "ENVIRONMENT=staging" >> $GITHUB_ENV
+          echo "environment=staging" >> $GITHUB_ENV
           echo "KUBE_CLUSTER_NAME=${{ env.KUBE_CLUSTER_NAME_STAGING }}" >> $GITHUB_ENV
         elif [[ "${{ github.ref }}" == 'refs/heads/development' ]]; then
-          echo "ENVIRONMENT=development" >> $GITHUB_ENV
+          echo "environment=development" >> $GITHUB_ENV
           echo "KUBE_CLUSTER_NAME=${{ env.KUBE_CLUSTER_NAME_DEVELOPMENT }}" >> $GITHUB_ENV
         elif [[ "${{ github.ref }}" == 'refs/heads/beta' ]]; then
-          echo "ENVIRONMENT=beta" >> $GITHUB_ENV
+          echo "environment=beta" >> $GITHUB_ENV
           echo "KUBE_CLUSTER_NAME=${{ env.KUBE_CLUSTER_NAME_BETA }}" >> $GITHUB_ENV
         else
-          echo "ENVIRONMENT=development" >> $GITHUB_ENV
+          echo "environment=development" >> $GITHUB_ENV
           echo "KUBE_CLUSTER_NAME=${{ env.KUBE_CLUSTER_NAME_DEVELOPMENT }}" >> $GITHUB_ENV
         fi
         
     - name: Set IMAGE_TAG
       shell: bash
       run: |
-        echo "IMAGE_TAG=ghcr.io/${GITHUB_REPOSITORY@L}-${{ env.ENVIRONMENT }}:${{ github.sha }}" >> $GITHUB_ENV
+        echo "IMAGE_TAG=ghcr.io/${GITHUB_REPOSITORY@L}-${{ env.environment }}:${{ github.sha }}" >> $GITHUB_ENV
 
     - name: Output variables
       shell: bash
       run: |
-        echo "ENVIRONMENT: ${{ env.ENVIRONMENT }}"
+        echo "ENVIRONMENT: ${{ env.environment }}"
         echo "IMAGE_TAG: ${{ env.IMAGE_TAG }}"
         echo "KUBE_CLUSTER_NAME: ${{ env.KUBE_CLUSTER_NAME }}"
