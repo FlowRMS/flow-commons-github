@@ -21,6 +21,14 @@ runs:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    - name: Set Environment
+      uses: flowrms/flow-commons-github/.github/actions/github-set-env@main
+      env:
+        KUBE_CLUSTER_NAME_PRODUCTION: ${{ env.KUBE_CLUSTER_NAME_PRODUCTION }}
+        KUBE_CLUSTER_NAME_STAGING: ${{ env.KUBE_CLUSTER_NAME_STAGING }}
+        KUBE_CLUSTER_NAME_DEVELOPMENT: ${{ env.KUBE_CLUSTER_NAME_DEVELOPMENT }}
+        KUBE_CLUSTER_NAME_BETA: ${{ env.KUBE_CLUSTER_NAME_BETA }}
+
     - name: Initialize Schema
       shell: bash
       run: |
