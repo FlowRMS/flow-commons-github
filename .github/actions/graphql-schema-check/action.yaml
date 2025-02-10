@@ -81,3 +81,16 @@ runs:
         wgc subgraph publish ${{ inputs.graph }} --namespace default --schema output.graphqls
       env:
         COSMO_API_KEY: ${{ env.COSMO_API_KEY }}
+
+    - name: Refresh Frontend fragments
+      shell: bash
+      env:
+        API_URL: "https://development.ai.flowrms.com/api/trigger/graphql?branch=${{ env.environment }}"
+        BASIC_AUTH_USERNAME: "github-actions"
+        BASIC_PASSWORD: ${{ secrets.BASIC_PASSWORD }}
+      run: |
+        AUTH_HEADER=$(echo -n "$BASIC_AUTH_USERNAME:$BASIC_PASSWORD" | base64)
+        curl -X POST "$API_URL" \
+          -H "Authorization: Basic $AUTH_HEADER" \
+          -H "Content-Type: application/json" \
+          -d '{}'
