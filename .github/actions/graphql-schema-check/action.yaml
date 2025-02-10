@@ -85,7 +85,7 @@ runs:
     - name: Refresh Frontend fragments
       shell: bash
       env:
-        API_URL: "https://development.ai.flowrms.com/api/trigger/graphql?branch=${{ env.environment }}"
+        API_URL: ${{ env.GENERATE_QUERIES_API_URL }}
         BASIC_AUTH_USERNAME: "github-actions"
         BASIC_PASSWORD: ${{ secrets.BASIC_PASSWORD }}
       run: |
