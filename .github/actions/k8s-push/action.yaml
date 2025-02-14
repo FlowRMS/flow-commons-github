@@ -22,6 +22,7 @@ runs:
     - name: Set Environment
       uses: flowrms/flow-commons-github/.github/actions/github-set-env@main
       env:
+        KUBE_CLUSTER_NAME_PRODUCTION_2: ${{ env.KUBE_CLUSTER_NAME_PRODUCTION_2 }}
         KUBE_CLUSTER_NAME_PRODUCTION: ${{ env.KUBE_CLUSTER_NAME_PRODUCTION }}
         KUBE_CLUSTER_NAME_STAGING: ${{ env.KUBE_CLUSTER_NAME_STAGING }}
         KUBE_CLUSTER_NAME_DEVELOPMENT: ${{ env.KUBE_CLUSTER_NAME_DEVELOPMENT }}
