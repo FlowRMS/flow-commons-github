@@ -34,9 +34,15 @@ runs:
       run: |
         echo "IMAGE_TAG=ghcr.io/${GITHUB_REPOSITORY@L}-${{ env.environment }}:${{ github.sha }}" >> $GITHUB_ENV
 
+    - name: Set Generate Queries API API_URL
+      shell: bash
+      run: |
+        echo "GENERATE_QUERIES_API_URL=https://${{env.environment}}.ai.flowrms.com/api/trigger/graphql?branch=${{ env.environment }}" >> $GITHUB_ENV
+
     - name: Output variables
       shell: bash
       run: |
         echo "ENVIRONMENT: ${{ env.environment }}"
         echo "IMAGE_TAG: ${{ env.IMAGE_TAG }}"
         echo "KUBE_CLUSTER_NAME: ${{ env.KUBE_CLUSTER_NAME }}"
+        echo "GENERATE_QUERIES_API_URL: ${{ env.GENERATE_QUERIES_API_URL }}"
